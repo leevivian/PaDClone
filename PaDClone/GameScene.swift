@@ -10,7 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    // MARK: Properties
+    // Properties
     
     // This is marked as ! because it will not initially have a value, but pretty
     // soon after the GameScene is created it will be given a Level object, and
@@ -24,8 +24,7 @@ class GameScene: SKScene {
     let orbsLayer = SKNode()
     let tilesLayer = SKNode()
     
-    
-    // MARK: Init
+    // Initialization
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder) is not used in this app")
@@ -43,9 +42,11 @@ class GameScene: SKScene {
         addChild(background)
         
         // Add a new node that is the container for all other layers on the playing
-        // field. This gameLayer is also centered in the screen.
+        // field. This gameLayer is also centered in the screen. 
+        // Subsequent layers are gamelayers' children.
         addChild(gameLayer)
         
+        // layerPosition sets a size that is about half the screen
         let layerPosition = CGPoint(
             x: -TileWidth * CGFloat(NumColumns) / 2,
             y: -TileHeight * CGFloat(NumRows) - 30)
@@ -60,7 +61,7 @@ class GameScene: SKScene {
     }
     
     
-    // MARK: Level Setup
+    // Level Setup
     
     func addSprites(for orbs: Set<Orb>) {
         for orb in orbs {
@@ -73,10 +74,7 @@ class GameScene: SKScene {
         }
     }
     
-    
-    // MARK: Point conversion
-    
-    // Converts a column,row pair into a CGPoint that is relative to the orbLayer.
+    // Converts a (column,row) pair into a CGPoint that is relative to the orbsLayer.
     func pointFor(column: Int, row: Int) -> CGPoint {
         return CGPoint(
             x: CGFloat(column)*TileWidth + TileWidth/2,

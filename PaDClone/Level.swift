@@ -35,7 +35,6 @@ class Level {
         for row in 0..<NumRows {
             for column in 0..<NumColumns {
                 
-            
                 // Pick a random orb type
                 let orbType = OrbType.random()
                 
@@ -44,8 +43,7 @@ class Level {
                 orbs[column, row] = orb
                 
                 // Adds new Orb object to Set.shuffle
-                
-                    set.insert(orb)
+                set.insert(orb)
             }
         }
         return set
