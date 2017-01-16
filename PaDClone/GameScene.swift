@@ -24,6 +24,12 @@ class GameScene: SKScene {
     let orbsLayer = SKNode()
     let tilesLayer = SKNode()
     
+    var swipeHandler: ((Swap) -> ())?
+    
+    // record the column and row numbers of the orb that is first selected by the player
+    private var swipeFromColumn: Int?
+    private var swipeFromRow: Int?
+    
     // Initialization
     
     required init?(coder aDecoder: NSCoder) {
@@ -59,6 +65,9 @@ class GameScene: SKScene {
         orbsLayer.position = layerPosition
         gameLayer.addChild(orbsLayer)
         
+        // Initialize swipe movement properties as nil when not selected
+        swipeFromColumn = nil
+        swipeFromRow = nil
         
     }
     
@@ -93,6 +102,92 @@ class GameScene: SKScene {
         return CGPoint(
             x: CGFloat(column)*TileWidth + TileWidth/2,
             y: CGFloat(row)*TileHeight + TileHeight/2)
+    }
+    
+    // Convert CGPoint in a (column,row) pair
+    func convertPoint(point: CGPoint) -> (success: Bool, column: Int, row: Int) {
+        if point.x >= 0 && point.x < CGFloat(NumColumns)*TileWidth &&
+            point.y >= 0 && point.y < CGFloat(NumRows)*TileHeight {
+            return (true, Int(point.x / TileWidth), Int(point.y / TileHeight))
+        } else {
+            return (false, 0, 0)  // invalid location
+        }
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        // Convert touch location to a point relative to orbsLayer
+        guard let touch = touches.first else { return }
+        let location = touch.locationInNode(orbsLayer)
+        // Verify touch occured on level grid
+        let (success, column, row) = convertPoint(location)
+        if success {
+            // touch is on orb
+            if level.orbAt(column, row: row) != nil {
+                // record the column and row
+                swipeFromColumn = column
+                swipeFromRow = row
+            }
+        }
+    }
+    
+    // Detect swipe direction
+    
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        // 1
+        guard swipeFromColumn != nil else { return }
+        
+        // 2
+        guard let touch = touches.first else { return }
+        let location = touch.locationInNode(orbsLayer)
+        
+        let (success, column, row) = convertPoint(location)
+        if success {
+            
+            // 3
+            var horzDelta = 0, vertDelta = 0
+            if column < swipeFromColumn! {          // swipe left
+                horzDelta = -1
+            } else if column > swipeFromColumn! {   // swipe right
+                horzDelta = 1
+            } else if row < swipeFromRow! {         // swipe down
+                vertDelta = -1
+            } else if row > swipeFromRow! {         // swipe up
+                vertDelta = 1
+            }
+            
+            // 4
+            if horzDelta != 0 || vertDelta != 0 {
+                trySwap(horizontal: horzDelta, vertical: vertDelta)
+                
+                // 5
+                swipeFromColumn = nil
+            }
+        }
+    }
+    
+    func trySwap(horizontal horzDelta: Int, vertical vertDelta: Int) {
+        // 1
+        let toColumn = swipeFromColumn! + horzDelta
+        let toRow = swipeFromRow! + vertDelta
+        // 2
+        guard toColumn >= 0 && toColumn < NumColumns else { return }
+        guard toRow >= 0 && toRow < NumRows else { return }
+        // 3
+        if let toCookie = level.orbAt(toColumn, row: toRow),
+            let fromCookie = level.orbAt(swipeFromColumn!, row: swipeFromRow!) {
+            // 4
+            print("*** swapping \(fromCookie) with \(toCookie)")
+        }
+    }
+    
+    // user lifts finger up from screen
+    func touchesEnded(touches: Set<UITouch>, with event: UIEvent?) {
+        swipeFromColumn = nil
+        swipeFromRow = nil
+    }
+    
+    func touchesCancelled(touches: Set<UITouch>, with event: UIEvent?) {
+        touchesEnded(touches, withEvent: event)
     }
     
 }
