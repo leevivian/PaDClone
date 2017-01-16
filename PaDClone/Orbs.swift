@@ -25,14 +25,12 @@ enum OrbType: Int, CustomStringConvertible {
     
     // The spriteName and highlightedSpriteName properties simply look up the name for the orb sprite in an array of strings. To find the index, you use rawValue to convert the enum’s current value to an integer.
     // arrays are indexed starting at 0, so you need to subtract 1 to find the correct array index
-    
     var highlightedSpriteName: String {
         return spriteName + "-Highlighted"
     }
     
     // Every time a new orb gets added to the game, it will get a random orb type. It makes sense to add that as a function on OrbType.
     // the result from arc4random_uniform() (an UInt32) must first be converted to an Int, and you can convert this number into a proper OrbType value
-    
     static func random() -> OrbType {
         return OrbType(rawValue: Int(arc4random_uniform(6)) + 1)!
     }
@@ -67,9 +65,8 @@ class Orb: CustomStringConvertible, Hashable {
     var description: String {
         return "type:\(orbType) square:(\(column),\(row))"
     }
-    // The orbType property describes the—wait for it—type of the orb, which takes a value from the OrbType enum. The type is really just a number from 1 to 6, but wrapping it in an enum allows you to work with easy-to-remember names instead of numbers.
-    // You will deliberately not use orb type Unknown (value 0). This value has a special meaning, as you’ll learn toward the end of this part of the tutorial.
     
+    // The orbType property describes the—wait for it—type of the orb, which takes a value from the OrbType enum. The type is really just a number from 1 to 6, but wrapping it in an enum allows you to work with easy-to-remember names instead of numbers.
     init(column: Int, row: Int, orbType: OrbType) {
         self.column = column
         self.row = row

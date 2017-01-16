@@ -34,7 +34,7 @@ class Level {
         // Loop through rows and columns of the 2D array
         for row in 0..<NumRows {
             for column in 0..<NumColumns {
-                
+             //  if tiles[column, row] != nil {
                 // Pick a random orb type
                 let orbType = OrbType.random()
                 
@@ -44,10 +44,14 @@ class Level {
                 
                 // Adds new Orb object to Set.shuffle
                 set.insert(orb)
+             //  }
             }
         }
         return set
     }
     
+    // tiles describes level structure, similar to 2D Array of Orbs
+    private var tiles = Array2D<Tile>(columns: NumColumns, rows: NumRows)
+
 }
 

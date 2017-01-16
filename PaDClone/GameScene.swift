@@ -58,10 +58,24 @@ class GameScene: SKScene {
         // This layer holds the Orb sprites. The positions of these sprites are relative to the orbsLayer's bottom-left corner.
         orbsLayer.position = layerPosition
         gameLayer.addChild(orbsLayer)
+        
+        
     }
     
-    
     // Level Setup
+    
+    func addTiles() {
+        for row in 0..<NumRows {
+            for column in 0..<NumColumns {
+             
+                    let tileNode = SKSpriteNode(imageNamed: "Tile")
+                    tileNode.size = CGSize(width: TileWidth, height: TileHeight)
+                    tileNode.position = pointFor(column, row: row)
+                    tilesLayer.addChild(tileNode)
+                
+            }
+        }
+    }
     
     func addSprites(for orbs: Set<Orb>) {
         for orb in orbs {

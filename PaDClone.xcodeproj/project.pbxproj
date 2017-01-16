@@ -18,6 +18,8 @@
 		5E1264A01E2B3B9200FD3FFD /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E12649F1E2B3B9200FD3FFD /* GameViewController.swift */; };
 		5E1264A21E2B3B9800FD3FFD /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1264A11E2B3B9800FD3FFD /* Array2D.swift */; };
 		5E1264A71E2B5A4C00FD3FFD /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 5E1264A61E2B5A4C00FD3FFD /* README.md */; };
+		5E6B82DE1E2C6D3900D809A0 /* Levels in Resources */ = {isa = PBXBuildFile; fileRef = 5E6B82DD1E2C6D3900D809A0 /* Levels */; };
+		5E6B82E01E2C6DD400D809A0 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6B82DF1E2C6DD400D809A0 /* Tile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		5E12649F1E2B3B9200FD3FFD /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		5E1264A11E2B3B9800FD3FFD /* Array2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
 		5E1264A61E2B5A4C00FD3FFD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		5E6B82DD1E2C6D3900D809A0 /* Levels */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Levels; sourceTree = "<group>"; };
+		5E6B82DF1E2C6DD400D809A0 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +57,7 @@
 				5E1264A51E2B5A3F00FD3FFD /* Git */,
 				5E1264801E2B3B3800FD3FFD /* PaDClone */,
 				5E12647F1E2B3B3800FD3FFD /* Products */,
+				5E6B82DD1E2C6D3900D809A0 /* Levels */,
 				5E1264971E2B3B4700FD3FFD /* Sprites.atlas */,
 			);
 			sourceTree = "<group>";
@@ -78,6 +83,7 @@
 				5E12648C1E2B3B3800FD3FFD /* Assets.xcassets */,
 				5E12648E1E2B3B3800FD3FFD /* LaunchScreen.storyboard */,
 				5E1264911E2B3B3800FD3FFD /* Info.plist */,
+				5E6B82DF1E2C6DD400D809A0 /* Tile.swift */,
 			);
 			path = PaDClone;
 			sourceTree = "<group>";
@@ -148,6 +154,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E6B82DE1E2C6D3900D809A0 /* Levels in Resources */,
 				5E1264901E2B3B3800FD3FFD /* LaunchScreen.storyboard in Resources */,
 				5E12648D1E2B3B3800FD3FFD /* Assets.xcassets in Resources */,
 				5E12648B1E2B3B3800FD3FFD /* Main.storyboard in Resources */,
@@ -165,6 +172,7 @@
 				5E1264A01E2B3B9200FD3FFD /* GameViewController.swift in Sources */,
 				5E1264A21E2B3B9800FD3FFD /* Array2D.swift in Sources */,
 				5E1264821E2B3B3800FD3FFD /* AppDelegate.swift in Sources */,
+				5E6B82E01E2C6DD400D809A0 /* Tile.swift in Sources */,
 				5E1264A71E2B5A4C00FD3FFD /* README.md in Sources */,
 				5E12649C1E2B3B6E00FD3FFD /* Level.swift in Sources */,
 				5E12649E1E2B3B8E00FD3FFD /* GameScene.swift in Sources */,
@@ -318,6 +326,7 @@
 				5E1264961E2B3B3800FD3FFD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
