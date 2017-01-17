@@ -27,8 +27,8 @@ class GameScene: SKScene {
     var swipeHandler: ((Swap) -> ())?
     
     // record the column and row numbers of the orb that is first selected by the player
-    private var swipeFromColumn: Int?
-    private var swipeFromRow: Int?
+    fileprivate var swipeFromColumn: Int?
+    fileprivate var swipeFromRow: Int?
     
     // Initialization
     
@@ -98,14 +98,14 @@ class GameScene: SKScene {
     }
     
     // Converts a (column,row) pair into a CGPoint that is relative to the orbsLayer.
-    func pointFor(column: Int, row: Int) -> CGPoint {
+    func pointFor(_ column: Int, row: Int) -> CGPoint {
         return CGPoint(
             x: CGFloat(column)*TileWidth + TileWidth/2,
             y: CGFloat(row)*TileHeight + TileHeight/2)
     }
     
     // Convert CGPoint in a (column,row) pair
-    func convertPoint(point: CGPoint) -> (success: Bool, column: Int, row: Int) {
+    func convertPoint(_ point: CGPoint) -> (success: Bool, column: Int, row: Int) {
         if point.x >= 0 && point.x < CGFloat(NumColumns)*TileWidth &&
             point.y >= 0 && point.y < CGFloat(NumRows)*TileHeight {
             return (true, Int(point.x / TileWidth), Int(point.y / TileHeight))
@@ -114,10 +114,10 @@ class GameScene: SKScene {
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Convert touch location to a point relative to orbsLayer
         guard let touch = touches.first else { return }
-        let location = touch.locationInNode(orbsLayer)
+        let location = touch.location(in: orbsLayer)
         // Verify touch occured on level grid
         let (success, column, row) = convertPoint(location)
         if success {
@@ -132,13 +132,13 @@ class GameScene: SKScene {
     
     // Detect swipe direction
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         // 1
         guard swipeFromColumn != nil else { return }
         
         // 2
         guard let touch = touches.first else { return }
-        let location = touch.locationInNode(orbsLayer)
+        let location = touch.location(in: orbsLayer)
         
         let (success, column, row) = convertPoint(location)
         if success {
@@ -173,21 +173,43 @@ class GameScene: SKScene {
         guard toColumn >= 0 && toColumn < NumColumns else { return }
         guard toRow >= 0 && toRow < NumRows else { return }
         // 3
-        if let toCookie = level.orbAt(toColumn, row: toRow),
-            let fromCookie = level.orbAt(swipeFromColumn!, row: swipeFromRow!) {
+        if let toOrb = level.orbAt(toColumn, row: toRow),
+            let fromOrb = level.orbAt(swipeFromColumn!, row: swipeFromRow!) {
             // 4
-            print("*** swapping \(fromCookie) with \(toCookie)")
+            print("*** swapping \(fromOrb) with \(toOrb)")
+            if let handler = swipeHandler {
+                let swap = Swap(orbA: fromOrb, orbB: toOrb)
+                handler(swap)
+            }
         }
     }
     
     // user lifts finger up from screen
-    func touchesEnded(touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         swipeFromColumn = nil
         swipeFromRow = nil
     }
     
-    func touchesCancelled(touches: Set<UITouch>, with event: UIEvent?) {
-        touchesEnded(touches, withEvent: event)
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touchesEnded(touches, with: event)
+    }
+    
+    func animate(_ swap: Swap, completion: @escaping () -> ()) {
+        let spriteA = swap.orbA.sprite!
+        let spriteB = swap.orbB.sprite!
+        
+        spriteA.zPosition = 100
+        spriteB.zPosition = 90
+        
+        let duration: TimeInterval = 0.3
+        
+        let moveA = SKAction.move(to: spriteB.position, duration: duration)
+        moveA.timingMode = .easeOut
+        spriteA.run(moveA)
+        
+        let moveB = SKAction.move(to: spriteA.position, duration: duration)
+        moveB.timingMode = .easeOut
+        spriteB.run(moveB)
     }
     
 }

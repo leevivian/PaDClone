@@ -14,10 +14,10 @@ let NumRows = 5
 
 class Level {
     // two-dim array that holds Orb objects, 30 in total
-    private var orbs = Array2D<Orb>(columns: NumColumns, rows: NumRows)
+    fileprivate var orbs = Array2D<Orb>(columns: NumColumns, rows: NumRows)
     
     // assert will verify the specified column and row numbers are valid
-    func orbAt(column: Int, row: Int) -> Orb? {
+    func orbAt(_ column: Int, row: Int) -> Orb? {
         assert(column >= 0 && column < NumColumns)
         assert(row >= 0 && row < NumRows)
         return orbs[column, row]
@@ -28,7 +28,7 @@ class Level {
         return createInitialOrbs()
     }
     
-    private func createInitialOrbs() -> Set<Orb> {
+    fileprivate func createInitialOrbs() -> Set<Orb> {
         var set = Set<Orb>()
         
         // Loop through rows and columns of the 2D array
@@ -51,7 +51,22 @@ class Level {
     }
     
     // tiles describes level structure, similar to 2D Array of Orbs
-    private var tiles = Array2D<Tile>(columns: NumColumns, rows: NumRows)
+    fileprivate var tiles = Array2D<Tile>(columns: NumColumns, rows: NumRows)
+    
+    func performSwap(_ swap: Swap) {
+        let columnA = swap.orbA.column
+        let rowA = swap.orbA.row
+        let columnB = swap.orbB.column
+        let rowB = swap.orbB.row
+        
+        orbs[columnA, rowA] = swap.orbB
+        swap.orbB.column = columnA
+        swap.orbA.row = rowA
+        
+        orbs[columnB, rowB] = swap.orbA
+        swap.orbB.column = columnB
+        swap.orbA.row = rowB
+    }
 
 }
 

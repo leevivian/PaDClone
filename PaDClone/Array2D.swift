@@ -11,7 +11,7 @@
 struct Array2D<T> {
     let columns: Int
     let rows: Int
-    private var array: Array<T?>
+    fileprivate var array: Array<T?>
     
     // Creates regular Swift Array with rows x columns
     // Sets all elements to nil
@@ -19,7 +19,7 @@ struct Array2D<T> {
     init(columns: Int, rows: Int) {
         self.columns = columns
         self.rows = rows
-        array = Array<T?>(count: rows*columns, repeatedValue: nil)
+        array = Array<T?>(repeating: nil, count: rows*columns)
     }
     
     // Subscripting: If you know the column and row numbers of a specific item, you can index the array as follows: myOrb = orbs[column, row]
